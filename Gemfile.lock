@@ -19,6 +19,7 @@ GEM
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.9.0)
+    rubocop-ast (1.9.1)
       parser (>= 3.0.1.1)
     rubocop-fjord (0.1.5)
       rubocop (>= 1.0)
