@@ -26,6 +26,21 @@ def convert_to_frames(scores)
   frames << frame
 end
 
+def calc_total_score(frames)
+  total_score = 0
+  frames.each_with_index do |frame, idx|
+    total_score += if strike?(frame) && idx != 9
+                     calc_strike_score(frames, idx)
+                   elsif spare?(frame) && idx != 9
+                     calc_spare_score(frames, idx)
+                   else
+                     frame.sum
+                   end
+  end
+
+  total_score
+end
+
 def strike?(frame)
   frame[0] == 10
 end
@@ -37,6 +52,10 @@ def calc_strike_score(frames, idx)
   else
     frames[idx][0] + frames[next_idx][0, 2].sum
   end
+end
+
+def spare?(frame)
+  !strike?(frame) && frame.sum == 10
 end
 
 def calc_spare_score(frames, idx)

@@ -25,6 +25,14 @@ class BowlingTest < Minitest::Test
                  convert_to_frames([10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10])
   end
 
+  def test_calc_total_score
+    assert_equal 139, calc_total_score([[6, 3], [9, 0], [0, 3], [8, 2], [7, 3], [10], [9, 1], [8, 0], [10], [6, 4, 5]])
+    assert_equal 164, calc_total_score([[6, 3], [9, 0], [0, 3], [8, 2], [7, 3], [10], [9, 1], [8, 0], [10], [10, 10, 10]])
+    assert_equal 107, calc_total_score([[0, 10], [1, 5], [0, 0], [0, 0], [10], [10], [10], [5, 1], [8, 1], [0, 4]])
+    assert_equal 134, calc_total_score([[6, 3], [9, 0], [0, 3], [8, 2], [7, 3], [10], [9, 1], [8, 0], [10], [10, 0, 0]])
+    assert_equal 300, calc_total_score([[10], [10], [10], [10], [10], [10], [10], [10], [10], [10, 10, 10]])
+  end
+
   def test_calc_strike_score
     assert_equal 20, calc_strike_score([[6, 3], [9, 0], [0, 3], [8, 2], [7, 3], [10], [9, 1], [8, 0], [10], [6, 4, 5]], 5)
     assert_equal 20, calc_strike_score([[6, 3], [9, 0], [0, 3], [8, 2], [7, 3], [10], [9, 1], [8, 0], [10], [6, 4, 5]], 8)
