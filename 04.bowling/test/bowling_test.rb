@@ -25,7 +25,7 @@ class BowlingTest < Minitest::Test
                  convert_to_frames([10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10])
   end
 
-  def test_strike_score
+  def test_calc_strike_score
     assert_equal 20, calc_strike_score([[6, 3], [9, 0], [0, 3], [8, 2], [7, 3], [10], [9, 1], [8, 0], [10], [6, 4, 5]], 5)
     assert_equal 20, calc_strike_score([[6, 3], [9, 0], [0, 3], [8, 2], [7, 3], [10], [9, 1], [8, 0], [10], [6, 4, 5]], 8)
     assert_equal 30, calc_strike_score([[0, 10], [1, 5], [0, 0], [0, 0], [10], [10], [10], [5, 1], [8, 1], [0, 4]], 4)
