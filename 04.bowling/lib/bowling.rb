@@ -25,3 +25,16 @@ def convert_to_frames(scores)
 
   frames << frame
 end
+
+def strike?(frame)
+  frame[0] == 10
+end
+
+def calc_strike_score(frames, idx)
+  next_idx = idx + 1
+  if strike?(frames[next_idx]) && next_idx != 9
+    frames[idx][0] + frames[next_idx][0] + frames[idx + 2][0]
+  else
+    frames[idx][0] + frames[next_idx][0, 2].sum
+  end
+end
