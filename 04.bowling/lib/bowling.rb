@@ -38,3 +38,7 @@ def calc_strike_score(frames, idx)
     frames[idx][0] + frames[next_idx][0, 2].sum
   end
 end
+
+def calc_spare_score(frames, idx)
+  frames[idx].sum + frames[idx + 1][0]
+end

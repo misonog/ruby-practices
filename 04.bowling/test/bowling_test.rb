@@ -31,4 +31,9 @@ class BowlingTest < Minitest::Test
     assert_equal 30, calc_strike_score([[0, 10], [1, 5], [0, 0], [0, 0], [10], [10], [10], [5, 1], [8, 1], [0, 4]], 4)
     assert_equal 30, calc_strike_score([[10], [10], [10], [10], [10], [10], [10], [10], [10], [10, 10, 10]], 8)
   end
+
+  def test_calc_spare_score
+    assert_equal 17, calc_spare_score([[6, 3], [9, 0], [0, 3], [8, 2], [7, 3], [10], [9, 1], [8, 0], [10], [6, 4, 5]], 3)
+    assert_equal 20, calc_spare_score([[6, 3], [9, 0], [0, 3], [8, 2], [7, 3], [10], [9, 1], [8, 0], [10], [6, 4, 5]], 4)
+  end
 end
