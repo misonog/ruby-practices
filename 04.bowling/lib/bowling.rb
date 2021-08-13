@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# score = ARGV[0]
+score = ARGV[0]
 
 def parse_score(score)
   score.split(',').map { |s| s == 'X' ? 10 : s.to_i }
@@ -61,3 +61,8 @@ end
 def calc_spare_score(frames, idx)
   frames[idx].sum + frames[idx + 1][0]
 end
+
+# ボウリング計算プログラムの実行
+scores = parse_score(score)
+frames = convert_to_frames(scores)
+puts calc_total_score(frames)
