@@ -34,10 +34,11 @@ end
 
 def calc_total_score(frames)
   total_score = 0
+  last_frame_idx = frames.size - 1
   frames.each_with_index do |frame, idx|
-    total_score += if strike?(frame) && idx != 9
+    total_score += if strike?(frame) && idx != last_frame_idx
                      calc_strike_score(frames, idx)
-                   elsif spare?(frame) && idx != 9
+                   elsif spare?(frame) && idx != last_frame_idx
                      calc_spare_score(frames, idx)
                    else
                      frame.sum
@@ -53,7 +54,8 @@ end
 
 def calc_strike_score(frames, idx)
   next_idx = idx + 1
-  if strike?(frames[next_idx]) && next_idx != 9
+  last_frame_idx = frames.size - 1
+  if strike?(frames[next_idx]) && next_idx != last_frame_idx
     frames[idx][0] + frames[next_idx][0] + frames[idx + 2][0]
   else
     frames[idx][0] + frames[next_idx][0, 2].sum
