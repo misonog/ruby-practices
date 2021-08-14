@@ -21,8 +21,7 @@ params[:year] = Date.today.year if params[:year].nil?
 
 def header(month, year)
   res = "#{month}月 #{year}".center((DAY_WIDTH + 1) * 7)
-  res += "\n"
-  res
+  res << "\n"
 end
 
 # カレンダーのコンテンツ領域を作成する
