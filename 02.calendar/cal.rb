@@ -16,8 +16,8 @@ opt.on('-y VAL') { |v| params[:year] = v.to_i }
 opt.parse!(ARGV)
 
 # 引数が渡されなかった際に当年当月を格納する
-params[:month] = Date.today.month if params[:month].nil?
-params[:year] = Date.today.year if params[:year].nil?
+params[:month] ||= Date.today.month
+params[:year] ||= Date.today.year
 
 def header(month, year)
   res = "#{month}月 #{year}".center((DAY_WIDTH + 1) * 7)
