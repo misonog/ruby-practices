@@ -25,6 +25,7 @@ module LS
       @timestamp = fs.mtime.strftime('%b %d %H:%M')
       @name = File.basename(path)
       @blocks = fs.blocks
+      @dotfile = dotfile?(@name)
     end
 
     private
@@ -43,6 +44,10 @@ module LS
       end
 
       result
+    end
+
+    def dotfile?(name)
+      /^[.]+[^.]+/.match?(name)
     end
   end
 end
