@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'date'
+require 'etc'
+
 module LS
   def self.generate_path_list(path)
     ls = []
@@ -11,6 +14,19 @@ module LS
   end
 
   class FileStat
+    def initialize(path)
+      fs = File::Stat.new(path)
+
+      @permission = convert_octal_to_symbol(fs.mode.to_s(8))
+      @hardlink = fs.nlink
+      @owner = Etc.getpwuid(fs.uid).name
+      @group = Etc.getgrgid(fs.gid).name
+      @size = fs.size
+      @timestamp = fs.mtime.strftime('%b %d %H:%M')
+      @name = File.basename(path)
+      @blocks = fs.blocks
+    end
+
     private
 
     def convert_octal_to_symbol(mode)
