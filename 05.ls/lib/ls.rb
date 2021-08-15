@@ -18,6 +18,8 @@ module LS
   end
 
   class FileStat
+    attr_reader :permission, :hardlink, :owner, :group, :size, :timestamp, :name, :blocks, :dotfile
+
     def initialize(path)
       fs = File::Stat.new(path)
 
