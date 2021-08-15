@@ -13,6 +13,10 @@ module LS
     ls
   end
 
+  def self.convert_path_to_class(paths)
+    paths.map { |path| LS::FileStat.new(path) }
+  end
+
   class FileStat
     def initialize(path)
       fs = File::Stat.new(path)
