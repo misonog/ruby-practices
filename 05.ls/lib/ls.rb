@@ -56,4 +56,32 @@ module LS
       /^[.]+[^.]+/.match?(name)
     end
   end
+
+  class Formatter
+    def initialize(file_stats, all: false, long: false, reverse: false)
+      @file_stats = file_stats
+      @all = all
+      @long = long
+      @reverse = reverse
+    end
+
+    def render
+      @file_stats.sort_by! { |f| ignore_dot_in_dotfile(f.name, f.dotfile) }
+      render_long_listing if @long
+    end
+
+    private
+
+    def render_long_listing
+      result = ['total 16']
+      @file_stats.each do |f|
+        result << "#{f.permission} #{f.hardlink} #{f.owner} #{f.group} #{f.size.to_s.rjust(4)} #{f.timestamp} #{f.name}"
+      end
+      result.join("\n")
+    end
+
+    def ignore_dot_in_dotfile(name, dotfile)
+      dotfile ? name.delete_prefix('.') : name
+    end
+  end
 end
