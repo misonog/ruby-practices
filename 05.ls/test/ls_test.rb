@@ -10,6 +10,17 @@ class LSTest < Minitest::Test
     assert_equal expected, actual
   end
 
+  def test_default_format
+    file_stats = LS.convert_path_to_class(LS.generate_path_list('./05.ls/testdata'))
+    formatter = LS::Formatter.new(file_stats)
+    actual = formatter.render
+
+    expected = <<~TEXT.chomp
+      bar.txt  foo.md  testdir
+    TEXT
+    assert_equal expected, actual
+  end
+
   def test_all_long_listing_format
     file_stats = LS.convert_path_to_class(LS.generate_path_list('./05.ls/testdata'))
     formatter = LS::Formatter.new(file_stats, all: true, long: true)
@@ -21,7 +32,7 @@ class LSTest < Minitest::Test
       -rwxr--r-- 1 misono misono    0 Aug 15 16:59 bar.txt
       -rw-r--r-- 1 misono misono  446 Aug 14 19:46 foo.md
       -rw-r--r-- 1 misono misono    0 Aug 14 19:41 .hoge
-      drwxr-xr-x 2 misono misono 4096 Aug 15 16:59 testdir
+      drwxr-xr-x 2 misono misono 4096 Aug 16 19:54 testdir
     TEXT
     actual = formatter.render
     assert_equal expected, actual
