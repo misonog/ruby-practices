@@ -74,15 +74,23 @@ module LS
 
     def render_long_listing
       total_blocks = @file_stats.inject(0) { |result, f| result + f.blocks }
+      max_size_length = calc_max_size_length
+
       result = ["total #{total_blocks}"]
       @file_stats.each do |f|
-        result << "#{f.permission} #{f.hardlink} #{f.owner} #{f.group} #{f.size.to_s.rjust(4)} #{f.timestamp} #{f.name}"
+        result << "#{f.permission} #{f.hardlink} #{f.owner} #{f.group} #{f.size.to_s.rjust(max_size_length)} #{f.timestamp} #{f.name}"
       end
       result.join("\n")
     end
 
     def ignore_dot_in_dotfile(name, dotfile)
       dotfile ? name.delete_prefix('.') : name
+    end
+
+    def calc_max_size_length
+      sizes = []
+      @file_stats.each { |f| sizes << f.size }
+      sizes.max.to_s.length
     end
   end
 end
