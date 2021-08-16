@@ -94,7 +94,8 @@ module LS
     end
 
     def render_long_listing
-      total_blocks = @file_stats.inject(0) { |result, f| result + f.blocks }
+      # total blocks は半分にすると一致するため、2 で割る
+      total_blocks = @file_stats.inject(0) { |result, f| result + f.blocks } / 2
       max_size_length = calc_max_size_length
 
       result = ["total #{total_blocks}"]
