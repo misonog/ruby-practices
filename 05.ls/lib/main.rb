@@ -11,6 +11,10 @@ def main
   opt.on('-l') { |v| params[:long] = v }
   opt.on('-r') { |v| params[:reverse] = v }
   opt.parse!(ARGV)
+
+  file_stats = LS.convert_path_to_class(LS.generate_path_list(ARGV[0]))
+  formatter = LS::Formatter.new(file_stats, **params)
+  puts formatter.render
 end
 
 main if $PROGRAM_NAME == __FILE__
