@@ -28,7 +28,7 @@ module LS
       @owner = Etc.getpwuid(fs.uid).name
       @group = Etc.getgrgid(fs.gid).name
       @size = fs.size
-      @timestamp = fs.mtime.strftime('%b %d %H:%M')
+      @timestamp = fs.mtime
       @name = File.basename(path)
       @blocks = fs.blocks
       @dotfile = dotfile?(@name)
@@ -104,7 +104,7 @@ module LS
 
       result = ["total #{total_blocks}"]
       @file_stats.each do |f|
-        result << "#{f.permission} #{f.hardlink} #{f.owner} #{f.group} #{f.size.to_s.rjust(max_size_length)} #{f.timestamp} #{f.name}"
+        result << "#{f.permission} #{f.hardlink} #{f.owner} #{f.group} #{f.size.to_s.rjust(max_size_length)} #{f.timestamp.strftime('%b %d %H:%M')} #{f.name}"
       end
       result.join("\n")
     end
