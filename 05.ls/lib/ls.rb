@@ -70,7 +70,7 @@ module LS
     def render
       @file_stats.sort_by! { |f| ignore_dot_in_dotfile(f.name, f.dotfile) }
       @file_stats.reverse! if @reverse
-      @file_stats.reject!(&:dotfile) unless @all
+      @file_stats.reject! { |f| /^[.]+/.match?(f.name) } unless @all
       @long ? render_long_listing : render_short
     end
 
@@ -79,17 +79,21 @@ module LS
     def render_short
       file_names = @file_stats.map(&:name)
 
-      max_file_name_length = file_names.map(&:length).max
-      file_names.map! { |file_name| file_name.ljust(max_file_name_length) }
-
       n_rows = (file_names.size / NUM_OF_COLUMNS.to_f).ceil
       # transpose するために、each_slice で不足する要素を nil で埋める
       # https://stackoverflow.com/questions/56412977/ruby-each-slice-into-sub-arrays-and-set-default-element-values-if-last-sub-array
       chunk_file_names = file_names.each_slice(n_rows).to_a.tap { |arr| arr.last.fill(nil, arr.last.length, n_rows - arr.last.length) }
+
+      # 列の中で最大長のファイル名に合わせる
+      chunk_file_names.map! do |f|
+        max_file_name_length = f.map(&:length).max
+        f.map! { |file_name| file_name.ljust(max_file_name_length) }
+      end
+
       transposed_file_names = chunk_file_names.transpose
 
       result = []
-      transposed_file_names.each { |n| result << n.join(' ') }
+      transposed_file_names.each { |n| result << n.join('  ') }
       result.join("\n")
     end
 
