@@ -58,6 +58,8 @@ module LS
   end
 
   class Formatter
+    NUM_OF_COLUMNS = 3
+
     def initialize(file_stats, all: false, long: false, reverse: false)
       @file_stats = file_stats
       @all = all
@@ -69,10 +71,27 @@ module LS
       @file_stats.sort_by! { |f| ignore_dot_in_dotfile(f.name, f.dotfile) }
       @file_stats.reverse! if @reverse
       @file_stats.reject!(&:dotfile) if @all
-      render_long_listing if @long
+      @long ? render_long_listing : render_short
     end
 
     private
+
+    def render_short
+      file_names = @file_stats.map(&:name)
+
+      max_file_name_length = file_names.map(&:length).max
+      file_names.map! { |file_name| file_name.ljust(max_file_name_length) }
+
+      n_rows = (file_names.size / NUM_OF_COLUMNS.to_f).ceil
+      # transpose するために、each_slice で不足する要素を nil で埋める
+      # https://stackoverflow.com/questions/56412977/ruby-each-slice-into-sub-arrays-and-set-default-element-values-if-last-sub-array
+      chunk_file_names = file_names.each_slice(n_rows).to_a.tap { |arr| arr.last.fill(nil, arr.last.length, n_rows - arr.last.length) }
+      transposed_file_names = chunk_file_names.transpose
+
+      result = []
+      transposed_file_names.each { |n| result << n.join(' ') }
+      result.join("\n")
+    end
 
     def render_long_listing
       total_blocks = @file_stats.inject(0) { |result, f| result + f.blocks }
