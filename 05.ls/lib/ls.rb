@@ -68,6 +68,7 @@ module LS
     def render
       @file_stats.sort_by! { |f| ignore_dot_in_dotfile(f.name, f.dotfile) }
       @file_stats.reverse! if @reverse
+      @file_stats.reject!(&:dotfile) if @all
       render_long_listing if @long
     end
 
