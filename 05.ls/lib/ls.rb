@@ -73,7 +73,8 @@ module LS
     private
 
     def render_long_listing
-      result = ['total 16']
+      total_blocks = @file_stats.inject(0) { |result, f| result + f.blocks }
+      result = ["total #{total_blocks}"]
       @file_stats.each do |f|
         result << "#{f.permission} #{f.hardlink} #{f.owner} #{f.group} #{f.size.to_s.rjust(4)} #{f.timestamp} #{f.name}"
       end
