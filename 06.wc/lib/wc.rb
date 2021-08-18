@@ -32,4 +32,41 @@ module WC
       @name = NAME
     end
   end
+
+  class Format
+    def initialize(word_counts, lines: false)
+      @word_counts = word_counts
+      @word_counts << TotalWordCount.new(@word_counts) if @word_counts.size >= 2
+      @lines = lines
+    end
+
+    def render
+      render_default
+    end
+
+    private
+
+    def render_default
+      @max_num_legth = calc_max_num_of_digits
+      result = []
+      @word_counts.each do |w|
+        result << "#{format_number(w.lines)} #{format_number(w.words)} #{format_number(w.bytes)} #{w.name}"
+      end
+      result.join("\n")
+    end
+
+    def calc_max_num_of_digits
+      digits = []
+      @word_counts.each do |w|
+        digits << w.lines
+        digits << w.words
+        digits << w.bytes
+      end
+      digits.map { |d| d.to_s.length }.max
+    end
+
+    def format_number(num)
+      num.to_s.rjust(@max_num_legth)
+    end
+  end
 end
