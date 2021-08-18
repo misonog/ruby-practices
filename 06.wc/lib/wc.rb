@@ -38,19 +38,31 @@ module WC
       @word_counts = word_counts
       @word_counts << TotalWordCount.new(@word_counts) if @word_counts.size >= 2
       @lines = lines
+      @max_num_legth = calc_max_num_of_digits
     end
 
     def render
-      render_default
+      @lines ? render_lines : render_default
     end
 
     private
 
     def render_default
-      @max_num_legth = calc_max_num_of_digits
       result = []
       @word_counts.each do |w|
         result << "#{format_number(w.lines)} #{format_number(w.words)} #{format_number(w.bytes)} #{w.name}"
+      end
+      result.join("\n")
+    end
+
+    def render_lines
+      result = []
+      @word_counts.each do |w|
+        result << if @word_counts.size == 1
+                    "#{w.lines} #{w.name}"
+                  else
+                    "#{format_number(w.lines)} #{w.name}"
+                  end
       end
       result.join("\n")
     end

@@ -34,4 +34,28 @@ class WSTest < Minitest::Test
     TEXT
     assert_equal expected, actual
   end
+
+  def test_single_file_line_option_format
+    wc = WC.create_word_count_from_path(%w[06.wc/testdata/foo.txt])
+    format = WC::Format.new(wc, lines: true)
+    actual = format.render
+
+    expected = <<~TEXT.chomp
+      4 06.wc/testdata/foo.txt
+    TEXT
+    assert_equal expected, actual
+  end
+
+  def test_multi_files_line_option_format
+    wc = WC.create_word_count_from_path(%w[06.wc/testdata/foo.txt 06.wc/testdata/bar.md])
+    format = WC::Format.new(wc, lines: true)
+    actual = format.render
+
+    expected = <<-TEXT.chomp
+  4 06.wc/testdata/foo.txt
+  5 06.wc/testdata/bar.md
+  9 total
+    TEXT
+    assert_equal expected, actual
+  end
 end
