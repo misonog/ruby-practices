@@ -19,4 +19,17 @@ module WC
       @name = path
     end
   end
+
+  class TotalWordCount
+    NAME = 'total'
+
+    attr_reader :lines, :words, :bytes, :name
+
+    def initialize(word_counts)
+      @lines = word_counts.inject(0) { |result, word_count| result + word_count.lines }
+      @words = word_counts.inject(0) { |result, word_count| result + word_count.words }
+      @bytes = word_counts.inject(0) { |result, word_count| result + word_count.bytes }
+      @name = NAME
+    end
+  end
 end
