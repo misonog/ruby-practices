@@ -12,7 +12,7 @@ module WC
   class WordCount
     attr_reader :lines, :words, :bytes, :name
 
-    def initialize(contents, path = '')
+    def initialize(contents, path)
       @lines = contents.size
       @words = contents.join.split(/\s+/).count { |s| !s.empty? }
       @bytes = contents.join.bytesize
