@@ -15,17 +15,14 @@ end
 
 # スコアをフレーム毎のリストに変換する
 def convert_to_frames(scores)
-  pin = 10
   frame = []
   frames = []
   scores.each do |score|
-    pin -= score
     frame << score
 
-    next unless frames.size < 9 && (pin.zero? || frame.size >= 2)
+    next unless frames.size < 9 && (score == 10 || frame.size >= 2)
 
     frames << frame
-    pin = 10
     frame = []
   end
 
@@ -70,4 +67,4 @@ def calc_spare_score(frames, idx)
   frames[idx].sum + frames[idx + 1][0]
 end
 
-main
+main if $PROGRAM_NAME == __FILE__
