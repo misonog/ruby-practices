@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
 module WC
-  def self.read_files(paths)
-    paths.map { |path| File.readlines(path) }
+  def self.create_word_count_from_path(paths)
+    paths.map { |path| create_word_count(File.readlines(path), path) }
+  end
+
+  def self.create_word_count(contents, path = '')
+    WordCount.new(contents, path)
   end
 
   class WordCount
