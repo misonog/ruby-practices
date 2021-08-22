@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require 'optparse'
-require './05.ls/lib/ls'
+require_relative 'ls'
 
 def main
   opt = OptionParser.new
