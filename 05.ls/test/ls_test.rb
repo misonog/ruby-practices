@@ -5,7 +5,6 @@ require_relative '../lib/ls'
 
 class LSTest < Minitest::Test
   def test_default_format
-    # file_stats = LS.convert_path_to_class(LS.generate_path_list('./05.ls/testdata'))
     file_stats = LS.generate_file_stats_class('./05.ls/testdata')
     formatter = LS::Formatter.new(file_stats)
     actual = formatter.render
@@ -17,7 +16,6 @@ class LSTest < Minitest::Test
   end
 
   def test_all_file_format
-    # file_stats = LS.convert_path_to_class(LS.generate_path_list('./05.ls/testdata'))
     file_stats = LS.generate_file_stats_class('./05.ls/testdata')
     formatter = LS::Formatter.new(file_stats, all: true)
     actual = formatter.render
@@ -30,7 +28,6 @@ class LSTest < Minitest::Test
   end
 
   def test_reverse_format
-    # file_stats = LS.convert_path_to_class(LS.generate_path_list('./05.ls/testdata/testdir'))
     file_stats = LS.generate_file_stats_class('./05.ls/testdata/testdir')
     formatter = LS::Formatter.new(file_stats, reverse: true)
     actual = formatter.render
@@ -42,7 +39,6 @@ class LSTest < Minitest::Test
   end
 
   def test_all_long_listing_format
-    # file_stats = LS.convert_path_to_class(LS.generate_path_list('./05.ls/testdata'))
     file_stats = LS.generate_file_stats_class('./05.ls/testdata/testdir')
     formatter = LS::Formatter.new(file_stats, all: true, long: true)
     actual = formatter.render
@@ -60,7 +56,6 @@ class LSTest < Minitest::Test
   end
 
   def test_all_long_reverse_format
-    # file_stats = LS.convert_path_to_class(LS.generate_path_list('./05.ls/testdata'))
     file_stats = LS.generate_file_stats_class('./05.ls/testdata')
     formatter = LS::Formatter.new(file_stats, all: true, long: true, reverse: true)
     actual = formatter.render
