@@ -5,12 +5,9 @@ require 'etc'
 
 module LS
   def self.generate_path_list(path)
-    ls = []
-    Dir.foreach(path) do |entry|
-      ls << File.join(path, entry)
+    Dir.foreach(path).map do |entry|
+      File.join(path, entry)
     end
-
-    ls
   end
 
   def self.convert_path_to_class(paths)
@@ -92,9 +89,7 @@ module LS
 
       transposed_file_names = chunk_file_names.transpose
 
-      result = []
-      transposed_file_names.each { |n| result << n.join('  ') }
-      result.join("\n")
+      transposed_file_names.map { |n| n.join('  ') }.join("\n")
     end
 
     def render_long_listing
