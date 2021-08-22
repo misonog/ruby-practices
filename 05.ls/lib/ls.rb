@@ -4,14 +4,9 @@ require 'date'
 require 'etc'
 
 module LS
-  def self.generate_path_list(path)
-    Dir.foreach(path).map do |entry|
-      File.join(path, entry)
-    end
-  end
-
-  def self.convert_path_to_class(paths)
-    paths.map { |path| LS::FileStat.new(path) }
+  def self.generate_file_stats_class(path)
+    paths = Dir.foreach(path).map { |entry| File.join(path, entry) }
+    paths.map { |p| LS::FileStat.new(p) }
   end
 
   class FileStat

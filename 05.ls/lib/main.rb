@@ -12,7 +12,7 @@ def main
   opt.on('-r') { |v| params[:reverse] = v }
   opt.parse!(ARGV)
 
-  file_stats = LS.convert_path_to_class(LS.generate_path_list(ARGV.empty? ? '.' : ARGV[0]))
+  file_stats = LS.generate_file_stats_class(ARGV.empty? ? '.' : ARGV[0])
   formatter = LS::Formatter.new(file_stats, **params)
   puts formatter.render
 end
