@@ -11,12 +11,12 @@ def main
   opt.parse!(ARGV)
 
   # 標準入力にも引数にもデータがなかった場合、無限に入力を待ち続けてしまう
-  if ARGV.empty?
-    contents = readlines
-    word_counts = [WC.create_word_count(contents)]
-  else
-    word_counts = WC.create_word_count_from_path(ARGV)
-  end
+  word_counts = if ARGV.empty?
+                  contents = reallines
+                  [WC.create_word_count(contents)]
+                else
+                  WC.create_word_count_from_path(ARGV)
+                end
 
   format = WC::Format.new(word_counts, **params)
   puts format.render
