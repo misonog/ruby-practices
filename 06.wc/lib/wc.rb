@@ -48,23 +48,11 @@ module WC
     private
 
     def render_default
-      result = []
-      @word_counts.each do |w|
-        result << "#{format_number(w.lines)} #{format_number(w.words)} #{format_number(w.bytes)} #{w.name}"
-      end
-      result.join("\n")
+      @word_counts.map { |w| "#{format_number(w.lines)} #{format_number(w.words)} #{format_number(w.bytes)} #{w.name}" }.join("\n")
     end
 
     def render_lines
-      result = []
-      @word_counts.each do |w|
-        result << if @word_counts.size == 1
-                    "#{w.lines} #{w.name}"
-                  else
-                    "#{format_number(w.lines)} #{w.name}"
-                  end
-      end
-      result.join("\n")
+      @word_counts.map { |w| @word_counts.size == 1 ? "#{w.lines} #{w.name}" : "#{format_number(w.lines)} #{w.name}" }.join("\n")
     end
 
     def calc_max_num_of_digits
