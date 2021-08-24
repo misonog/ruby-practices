@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-require './06.wc/lib/wc'
+require_relative '../lib/wc'
 
 class WSTest < Minitest::Test
   def test_create_word_count_from_path
