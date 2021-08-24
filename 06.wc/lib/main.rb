@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require 'optparse'
-require './06.wc/lib/wc'
+require_relative 'wc'
 
 def main
   opt = OptionParser.new
