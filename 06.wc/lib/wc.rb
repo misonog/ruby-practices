@@ -26,9 +26,9 @@ module WC
     attr_reader :lines, :words, :bytes, :name
 
     def initialize(word_counts)
-      @lines = word_counts.each.sum(&:lines)
-      @words = word_counts.each.sum(&:words)
-      @bytes = word_counts.each.sum(&:bytes)
+      @lines = word_counts.sum(&:lines)
+      @words = word_counts.sum(&:words)
+      @bytes = word_counts.sum(&:bytes)
       @name = NAME
     end
   end
