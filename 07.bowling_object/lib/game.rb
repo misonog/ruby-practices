@@ -4,7 +4,6 @@ require_relative 'frame'
 require_relative 'shot'
 
 class Game
-  STRIKE_MARK = 'X'
   MAX_FRAMES_SIZE = 10
 
   def initialize(marks)
@@ -13,8 +12,7 @@ class Game
 
   def score
     last_frame_idx = @frames.size - 1
-    @frames.each_with_index.sum do |f, idx|
-      frame = Frame.new(f)
+    @frames.each_with_index.sum do |frame, idx|
       if frame.strike? && idx != last_frame_idx
         calc_strike_score(idx)
       elsif frame.spare? && idx != last_frame_idx
@@ -33,29 +31,28 @@ class Game
     marks.split(',').each do |mark|
       frame << mark
 
-      next unless frames.size < MAX_FRAMES_SIZE - 1 && (mark == STRIKE_MARK || frame.size >= 2)
+      next unless frames.size < MAX_FRAMES_SIZE - 1 && (mark == Shot::STRIKE_MARK || frame.size >= 2)
 
-      frames << frame
+      frames << Frame.new(frame)
       frame = []
     end
 
-    frames << frame
+    frames << Frame.new(frame)
   end
 
   def calc_strike_score(idx)
     next_idx = idx + 1
     last_frame_idx = @frames.size - 1
-    current_frame = Frame.new(@frames[idx])
-    # 10フレーム目に3投している場合への対応
-    next_frame = Frame.new(@frames[next_idx][0, 2])
+    current_frame = @frames[idx]
+    next_frame = @frames[next_idx]
     if next_frame.strike? && next_idx != last_frame_idx
-      current_frame.score + next_frame.score + Shot.new(@frames[idx + 2][0]).score
+      current_frame.score + next_frame.score + @frames[idx + 2].calc_score_until_num_of_shot(1)
     else
-      current_frame.score + next_frame.score
+      current_frame.score + next_frame.calc_score_until_num_of_shot(2)
     end
   end
 
   def calc_spare_score(idx)
-    Frame.new(@frames[idx]).score + Shot.new(@frames[idx + 1][0]).score
+    @frames[idx].score + @frames[idx + 1].calc_score_until_num_of_shot(1)
   end
 end
