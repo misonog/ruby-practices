@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require 'optparse'
-require_relative 'lib/ls'
+require_relative 'lib/command'
 
 def main
   opt = OptionParser.new
@@ -13,7 +13,8 @@ def main
   opt.parse!(ARGV)
 
   path = ARGV.empty? ? '.' : ARGV[0]
-  LS.run(path, params)
+  ls = Command.new(path, params)
+  puts ls.run
 end
 
 main if $PROGRAM_NAME == __FILE__
