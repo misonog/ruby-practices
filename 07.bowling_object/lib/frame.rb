@@ -3,22 +3,22 @@
 require_relative 'shot'
 
 class Frame
-  STRIKE_MARK = 'X'
-  MAX_SCORE = 10
+  attr_reader :score
 
   def initialize(frame)
-    @frame = frame
-  end
-
-  def score
-    @frame.sum { |shot| Shot.new(shot).score }
+    @shots = frame.map { |mark| Shot.new(mark) }
+    @score = @shots.sum(&:score)
   end
 
   def strike?
-    @frame[0] == STRIKE_MARK
+    @shots[0].score == Shot::MAX_SCORE
   end
 
   def spare?
-    !strike? && score == MAX_SCORE
+    !strike? && @score == Shot::MAX_SCORE
+  end
+
+  def calc_score_until_num_of_shot(num)
+    @shots[0, num].sum(&:score)
   end
 end
