@@ -11,12 +11,11 @@ class Game
   end
 
   def score
-    last_frame_idx = @frames.size - 1
-    @frames.each_with_index.sum do |frame, idx|
-      if frame.strike? && idx != last_frame_idx
-        calc_strike_score(idx)
-      elsif frame.spare? && idx != last_frame_idx
-        calc_spare_score(idx)
+    @frames.sum do |frame|
+      if frame.strike? && !frame.last?
+        calc_strike_score(frame)
+      elsif frame.spare? && !frame.last?
+        calc_spare_score(frame)
       else
         frame.score
       end
@@ -31,28 +30,26 @@ class Game
     all_marks.split(',').each do |mark|
       current_frame << mark
 
-      next unless frames.size < MAX_FRAMES_SIZE - 1 && (mark == Shot::STRIKE_MARK || current_frame.size >= 2)
+      next unless frames.size < Frame::MAX_FRAME_INDEX && (mark == Shot::STRIKE_MARK || current_frame.size >= 2)
 
-      frames << Frame.new(current_frame)
+      frames << Frame.new(current_frame, frames.size)
       current_frame = []
     end
 
-    frames << Frame.new(current_frame)
+    frames << Frame.new(current_frame, frames.size)
   end
 
-  def calc_strike_score(idx)
-    next_idx = idx + 1
-    last_frame_idx = @frames.size - 1
-    current_frame = @frames[idx]
+  def calc_strike_score(current_frame)
+    next_idx = current_frame.index + 1
     next_frame = @frames[next_idx]
-    if next_frame.strike? && next_idx != last_frame_idx
-      current_frame.score + next_frame.score + @frames[idx + 2].calc_score_until_num_of_shot(1)
+    if next_frame.strike? && !next_frame.last?
+      current_frame.score + next_frame.score + @frames[next_idx + 1].calc_score_until_num_of_shot(1)
     else
       current_frame.score + next_frame.calc_score_until_num_of_shot(2)
     end
   end
 
-  def calc_spare_score(idx)
-    @frames[idx].score + @frames[idx + 1].calc_score_until_num_of_shot(1)
+  def calc_spare_score(current_frame)
+    current_frame.score + @frames[current_frame.index + 1].calc_score_until_num_of_shot(1)
   end
 end
