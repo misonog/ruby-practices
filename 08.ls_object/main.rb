@@ -13,7 +13,7 @@ def main
   opt.parse!(ARGV)
 
   path = ARGV.empty? ? '.' : ARGV[0]
-  ls = Command.new(path, params)
+  ls = Command.new(path, **params)
   puts ls.run
 end
 
