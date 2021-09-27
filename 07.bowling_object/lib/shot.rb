@@ -10,6 +10,10 @@ class Shot
     @score = convert_to_score(mark)
   end
 
+  def strike?
+    @score == MAX_SCORE
+  end
+
   private
 
   def convert_to_score(mark)

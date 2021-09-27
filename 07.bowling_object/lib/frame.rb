@@ -11,7 +11,7 @@ class Frame
   end
 
   def strike?
-    @shots[0].score == Shot::MAX_SCORE
+    @shots[0].strike?
   end
 
   def spare?
