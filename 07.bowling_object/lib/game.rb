@@ -6,8 +6,8 @@ require_relative 'shot'
 class Game
   MAX_FRAMES_SIZE = 10
 
-  def initialize(marks)
-    @frames = convert_to_frames(marks)
+  def initialize(all_marks)
+    @frames = convert_to_frames(all_marks)
   end
 
   def score
@@ -25,19 +25,19 @@ class Game
 
   private
 
-  def convert_to_frames(marks)
-    frame = []
+  def convert_to_frames(all_marks)
+    current_frame = []
     frames = []
-    marks.split(',').each do |mark|
-      frame << mark
+    all_marks.split(',').each do |mark|
+      current_frame << mark
 
-      next unless frames.size < MAX_FRAMES_SIZE - 1 && (mark == Shot::STRIKE_MARK || frame.size >= 2)
+      next unless frames.size < MAX_FRAMES_SIZE - 1 && (mark == Shot::STRIKE_MARK || current_frame.size >= 2)
 
-      frames << Frame.new(frame)
-      frame = []
+      frames << Frame.new(current_frame)
+      current_frame = []
     end
 
-    frames << Frame.new(frame)
+    frames << Frame.new(current_frame)
   end
 
   def calc_strike_score(idx)

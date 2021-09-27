@@ -5,8 +5,8 @@ require_relative 'shot'
 class Frame
   attr_reader :score
 
-  def initialize(frame)
-    @shots = frame.map { |mark| Shot.new(mark) }
+  def initialize(marks)
+    @shots = marks.map { |mark| Shot.new(mark) }
     @score = @shots.sum(&:score)
   end
 
