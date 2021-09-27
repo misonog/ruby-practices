@@ -3,13 +3,13 @@
 require_relative 'shot'
 
 class Frame
-  attr_reader :score, :index
+  attr_reader :num_of_knocked_down_pins, :index
 
   MAX_FRAME_INDEX = 9
 
   def initialize(marks, index)
     @shots = marks.map { |mark| Shot.new(mark) }
-    @score = @shots.sum(&:score)
+    @num_of_knocked_down_pins = @shots.sum(&:score)
     @index = index
   end
 
@@ -18,7 +18,7 @@ class Frame
   end
 
   def spare?
-    !strike? && @score == Shot::MAX_SCORE
+    !strike? && @num_of_knocked_down_pins == Shot::MAX_PINS
   end
 
   def calc_score_until_num_of_shot(num)

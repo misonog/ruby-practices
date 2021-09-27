@@ -17,7 +17,7 @@ class Game
       elsif frame.spare? && !frame.last?
         calc_spare_score(frame)
       else
-        frame.score
+        frame.num_of_knocked_down_pins
       end
     end
   end
@@ -43,13 +43,13 @@ class Game
     next_idx = current_frame.index + 1
     next_frame = @frames[next_idx]
     if next_frame.strike? && !next_frame.last?
-      current_frame.score + next_frame.score + @frames[next_idx + 1].calc_score_until_num_of_shot(1)
+      current_frame.num_of_knocked_down_pins + next_frame.num_of_knocked_down_pins + @frames[next_idx + 1].calc_score_until_num_of_shot(1)
     else
-      current_frame.score + next_frame.calc_score_until_num_of_shot(2)
+      current_frame.num_of_knocked_down_pins + next_frame.calc_score_until_num_of_shot(2)
     end
   end
 
   def calc_spare_score(current_frame)
-    current_frame.score + @frames[current_frame.index + 1].calc_score_until_num_of_shot(1)
+    current_frame.num_of_knocked_down_pins + @frames[current_frame.index + 1].calc_score_until_num_of_shot(1)
   end
 end
