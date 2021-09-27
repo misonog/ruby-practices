@@ -27,10 +27,10 @@ class Game
   def convert_to_frames(all_marks)
     current_frame = []
     frames = []
-    all_marks.split(',').each do |mark|
-      current_frame << mark
+    all_marks.split(',').each do |current_mark|
+      current_frame << current_mark
 
-      next unless frames.size < Frame::MAX_FRAME_INDEX && (mark == Shot::STRIKE_MARK || current_frame.size >= 2)
+      next unless frames.size < Frame::MAX_FRAME_INDEX && (current_mark == Shot::STRIKE_MARK || current_frame.size >= 2)
 
       frames << Frame.new(current_frame, frames.size)
       current_frame = []
