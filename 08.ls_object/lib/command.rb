@@ -7,12 +7,11 @@ require_relative 'short_renderer'
 class Command
   def initialize(path, all: false, reverse: false, long: false)
     @file_stats = generate_file_stats_classes(path, all, reverse)
-    @long = long
+    @renderer = long ? LongRenderer.new(@file_stats) : ShortRenderer.new(@file_stats)
   end
 
   def run
-    renderer = @long ? LongRenderer.new(@file_stats) : ShortRenderer.new(@file_stats)
-    renderer.render
+    @renderer.render
   end
 
   private
